@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Noura GPS</title>
+</head>
+<body style="text-align:center; font-family:sans-serif;">
+
+  <h2>📍 Noura Location</h2>
+  <button onclick="sendLocation()" style="padding:15px; font-size:16px;">
+    Send My Location
+  </button>
+
+  <p id="status"></p>
+
+  <script>
+    const token = "_ywWVZ3Rhgg1DLTBVDPLkPrgFc4ic_Zj";
+
+    function sendLocation() {
+      document.getElementById("status").innerText = "Sending...";
+
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const url = `https://blynk.cloud/external/api/update?token=${token}&pin=V0&value=${lon}&value=${lat}`;
+
+        const response = await fetch(url);
+
+        if (response.ok) {
+          document.getElementById("status").innerText = "✅ Sent!";
+        } else {
+          document.getElementById("status").innerText = "❌ Error";
+        }
+
+      }, (error) => {
+        document.getElementById("status").innerText = "⚠️ Location error";
+      });
+    }
+  </script>
+
+</body>
+</html>
